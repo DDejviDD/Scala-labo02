@@ -24,7 +24,7 @@ object Tree {
     def reply: String = this match {
       // Example cases
 
-      case Number() => ""
+      case Num() => ""
       case Beer() => ""
       case Croissant() => ""
       case Or() => "or"
@@ -44,7 +44,8 @@ object Tree {
   // Example cases
   case class Thirsty() extends ExprTree
   case class Hungry() extends ExprTree
-  case class Number() extends ExprTree
+  case class Num() extends ExprTree
+  case class Product() extends ExprTree
   case class Beer() extends ExprTree
   case class Croissant() extends ExprTree
   case class Or() extends ExprTree

@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Bot-tender.iml" filepath="$PROJECT_DIR$/.idea/modules/Bot-tender.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bot-tender-build.iml" filepath="$PROJECT_DIR$/.idea/modules/bot-tender-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Bot-tender-build.iml" filepath="$PROJECT_DIR$/.idea/modules/Bot-tender-build.iml" />
     </modules>
   </component>
 </project>
