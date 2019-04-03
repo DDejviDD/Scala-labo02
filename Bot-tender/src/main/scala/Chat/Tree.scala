@@ -37,7 +37,6 @@ object Tree {
       case Hungry() => "Pas de soucis, nous pouvons notamment vous offrir des croissants faits maisons !"
     }
   }
-
   /**
     * Declarations of the nodes' types.
     */
@@ -52,4 +51,7 @@ object Tree {
   case class And() extends ExprTree
   case class Chips() extends ExprTree
   case class Marque() extends ExprTree
+  case class ReadOrAddUser() extends ExprTree
+  case class Commande() extends ExprTree
+  case class Balance() extends ExprTree
 }
