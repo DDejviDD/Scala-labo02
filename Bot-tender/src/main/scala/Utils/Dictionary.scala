@@ -26,6 +26,6 @@ object Dictionary {
     "assoiffée" -> "assoiffe",
     "affamé" -> "affame",
     "affamée" -> "affame",
-    "commander"->"commande"
+    "commander"->"commander"
   )
 }

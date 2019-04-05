@@ -26,11 +26,14 @@ object Tokens {
   // New
   val PRODUIT: Token        = 15
   val MARQUE: Token         = 16
-  val POLITESSE: Token      = 17
-  val IDENTIFICATION: Token = 18
-  val COMMANDE: Token       = 19
-  val SOLDE: Token          = 20
-  val PRIX: Token           = 21
-  val PHRASE: Token         = 22
-
+  val COUTER: Token         = 17
+  val COMMANDER: Token      = 18
+  val SOLDE: Token          = 19
+  val PRIX: Token           = 20
+  val COMBIEN: Token        = 21
+  val QUEL:Token            = 22
+  val DETERMINANT:Token     = 23
+  val CONNAITRE:Token       = 24
+  val MOI:Token             = 25
+  val APPELLER:Token        = 26
 }

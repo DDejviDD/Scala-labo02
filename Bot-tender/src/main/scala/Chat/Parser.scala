@@ -60,24 +60,31 @@ class Parser(tokenizer: Tokenizer) {
    def parseItems() : ExprTree = {
       if(curToken == NUM){
          readToken()
-         Num()
+         Num(Integer.valueOf(curValue))
          if(curToken == PRODUIT){
             readToken()
             Product()
             if(curToken == MARQUE){
                readToken()
                Marque()
+               if (curToken == OU){
+                  readToken()
+                  Or()
+               } else if (curToken == ET){
+                  readToken()
+                  And()
+               }
+               else{ EOL() }
             } else if (curToken == OU){
                readToken()
                Or()
             } else if (curToken == ET){
                readToken()
                And()
-            } else { expected(MARQUE, OU, ET) }
+            } else { EOL() }
          } else{ expected(PRODUIT) }
       } else { expected(NUM) }
    }
-   def parsePolite() : Boolean = { curToken == AIMER || curToken == VOULOIR }
 
    /** the root method of the parser: parses an entry phrase */
    def parsePhrases() : ExprTree = {
@@ -87,18 +94,18 @@ class Parser(tokenizer: Tokenizer) {
       if(curToken == COMBIEN || curToken == QUEL){ parsePrice() }
       else if (curToken == JE ) {
          eat(JE)
-         if(parsePolite()){ readToken()
-            if(curToken == COMMANDE){ readToken()
+         if(curToken == VOULOIR){ readToken()
+            if(curToken == COMMANDER){ readToken()
                while (curToken == NUM){ parseItems() }
                Commande()
                Eol()
             } else if(curToken == CONNAITRE){ readToken()
-               if(curToken == MON) { readToken()
+               if(curToken == MOI) { readToken()
                   if(curToken == SOLDE){
                      readToken()
                      Balance()
                   } else {expected(SOLDE)}
-               } else {expected(MON)}
+               } else {expected(MOI)}
             } else { expected(CONNAITRE) }
          }
          else if (curToken == ETRE) { eat(ETRE)
@@ -114,7 +121,7 @@ class Parser(tokenizer: Tokenizer) {
                readToken()
                ReadOrAddUser()
             } else { expected(ASSOIFFE, AFFAME, PSEUDO) }
-         } else if(curToken == ME){ eat(ME)
+         } else if(curToken == MOI){ eat(MOI)
             if(curToken == APPELLER){ eat(APPELLER)
                if (curToken == PSEUDO){
                   readToken()
@@ -122,7 +129,7 @@ class Parser(tokenizer: Tokenizer) {
                } else { expected(PSEUDO) }
             } else { expected(APPELLER) }
          }
-         else { expected(AIMER, VOULOIR, ETRE, ME) }
+         else { expected(VOULOIR, ETRE, MOI) }
       } else { expected(BONJOUR, COMBIEN, QUEL, JE) }
    }
 }
