@@ -88,8 +88,7 @@ class Parser(tokenizer: Tokenizer) {
 
    /** the root method of the parser: parses an entry phrase */
    def parsePhrases() : ExprTree = {
-      // Start the process by reading the first token.
-      readToken()
+
       if (curToken == BONJOUR) eat(BONJOUR)
       if(curToken == COMBIEN || curToken == QUEL){ parsePrice() }
       else if (curToken == JE ) {
@@ -132,4 +131,6 @@ class Parser(tokenizer: Tokenizer) {
          else { expected(VOULOIR, ETRE, MOI) }
       } else { expected(BONJOUR, COMBIEN, QUEL, JE) }
    }
+   // Start the process by reading the first token.
+   readToken()
 }
