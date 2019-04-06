@@ -17,7 +17,7 @@ object Products {
   abstract class Product {
     var price: Double
     var name: String
-    var brand: String = _
+    var brand: String
 
     override def toString: String = name
   }

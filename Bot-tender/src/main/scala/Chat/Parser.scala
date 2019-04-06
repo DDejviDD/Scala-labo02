@@ -64,7 +64,7 @@ class Parser(tokenizer: Tokenizer) {
                product = new Beer()
                readToken()
                if(curToken == MARQUE){
-                  product.name = curValue
+                  product.brand = curValue
                   readToken()
                }
             }
@@ -72,7 +72,7 @@ class Parser(tokenizer: Tokenizer) {
                product = new Croissant()
                readToken()
                if(curToken == MARQUE){
-                  product.name = curValue
+                  product.brand = curValue
                   readToken()
                }
             }
