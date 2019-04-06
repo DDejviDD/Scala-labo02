@@ -77,7 +77,18 @@ object Tree {
    }
    case class Balance() extends ExprTree
 
-   case class Or(leftNode: ExprTree, rightNode: ExprTree) extends ExprTree
-   case class And(leftNode: ExprTree, rightNode: ExprTree) extends ExprTree
+   case class Or(leftNode: ExprTree, rightNode: ExprTree) extends ExprTree {
+      override def toString: String = {
+         if(leftNode.computePrice <= rightNode.computePrice)
+            leftNode.toString
+         else
+            rightNode.toString
+      }
+   }
+   case class And(leftNode: ExprTree, rightNode: ExprTree) extends ExprTree {
+      override def toString: String = {
+         leftNode.toString + " et " + rightNode.toString
+      }
+   }
 
 }
