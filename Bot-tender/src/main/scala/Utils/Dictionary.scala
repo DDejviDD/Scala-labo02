@@ -23,6 +23,7 @@ object Dictionary {
     "veux"        -> "vouloir",
     "voudrais"    -> "vouloir",
     "aimerais"    -> "vouloir",
+    "biere"       -> "biere",
     "bière"       -> "biere",
     "bières"      -> "biere",
     "croissant"   -> "croissant",
