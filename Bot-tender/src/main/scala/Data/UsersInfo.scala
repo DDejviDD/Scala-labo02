@@ -46,7 +46,7 @@ object UsersInfo {
    /**
      * set new active user
      */
-   def setActiveUser(user: String): Unit = activeUser = user
+   def setActiveUser(user: String): Unit = activeUser = user.substring(1)
 
 
 }
