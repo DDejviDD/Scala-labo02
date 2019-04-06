@@ -1,7 +1,9 @@
 package Chat
 
+import Data.{Beer, Chips, Croissant}
 import Tokens._
 import Tree._
+import Data.Products._
 
 // TODO - step 4
 class Parser(tokenizer: Tokenizer) {
@@ -32,82 +34,88 @@ class Parser(tokenizer: Tokenizer) {
    }
 
    def parsePrice() : ExprTree = {
-      if (curToken == COMBIEN){ eat(curToken)
-         if(curToken == COUTER){
-            eat(curToken)
-            while (curToken == NUM){ parseItems() }
-            ObtainPrice()
-         }
-         else { expected(COUTER) }
-      } else if(curToken == QUEL){ eat(curToken)
-         if (curToken == ETRE){ eat(curToken)
-            if(curToken == DETERMINANT){ eat(curToken)
-               if(curToken == PRIX){ eat(curToken)
-                  if(curToken == DETERMINANT){
-                     eat(curToken)
-                     while (curToken == NUM){ parseItems() }
-                     ObtainPrice()
-                  }
-                  else { expected(DETERMINANT) }
+      var isComputable:Boolean = false
+      if (curToken == COMBIEN){
+         readToken()
+         eat(COUTER)
+         isComputable = true
+      }
+      else if(curToken == QUEL) {
+         readToken()
+         eat(ETRE)
+         eat(DETERMINANT)
+         eat(PRIX)
+         eat(DETERMINANT)
+         isComputable = true
+      }
+      if(isComputable){
+         ObtainPrice(parseItems())
+      }
+   }
+   def parseOrder() : ExprTree = {
+      var quantity : Int = 0
+      var product : Product = null
+
+      if(curToken == NUM){
+         quantity = curValue.toInt
+         eat(NUM)
+         curToken match {
+            case BIERE => {
+               product = new Beer()
+               readToken()
+               if(curToken == MARQUE){
+                  product.p_type = curValue
+                  readToken()
                }
-               else { expected(PRIX) }
             }
-            else { expected(DETERMINANT) }
+            case CROISSANT => {
+               product = new Croissant()
+               readToken()
+               if(curToken == MARQUE){
+                  product.p_type = curValue
+                  readToken()
+               }
+            }
+            case CHIPS => product = new Chips()
+            case _ => expected(CROISSANT, BIERE, CHIPS)
          }
-         else { expected(ETRE) }
-      } else { expected(COMBIEN, QUEL) }
+      }
+      ShopCart(quantity, product)
    }
    def parseItems() : ExprTree = {
-      if(curToken == NUM){
-         readToken()
-         Num(Integer.valueOf(curValue))
-         if(curToken == PRODUIT){
+      val leftNode:ExprTree = parseOrder()
+      curToken match {
+         case ET => {
             readToken()
-            Product()
-            if(curToken == MARQUE){
-               readToken()
-               Marque()
-               if (curToken == OU){
-                  readToken()
-                  Or()
-               } else if (curToken == ET){
-                  readToken()
-                  And()
-               }
-               else{ EOL() }
-            } else if (curToken == OU){
-               readToken()
-               Or()
-            } else if (curToken == ET){
-               readToken()
-               And()
-            } else { EOL() }
-         } else{ expected(PRODUIT) }
-      } else { expected(NUM) }
+            And(leftNode, parseItems())
+         }
+         case OU =>{
+            readToken()
+            Or(leftNode, parseItems())
+         }
+         case _ => leftNode
+      }
    }
 
    /** the root method of the parser: parses an entry phrase */
    def parsePhrases() : ExprTree = {
-
-      if (curToken == BONJOUR) eat(BONJOUR)
+      if (curToken == BONJOUR) { readToken() }
       if(curToken == COMBIEN || curToken == QUEL){ parsePrice() }
       else if (curToken == JE ) {
-         eat(JE)
-         if(curToken == VOULOIR){ readToken()
-            if(curToken == COMMANDER){ readToken()
-               while (curToken == NUM){ parseItems() }
-               Commande()
-               Eol()
-            } else if(curToken == CONNAITRE){ readToken()
-               if(curToken == MOI) { readToken()
-                  if(curToken == SOLDE){
-                     readToken()
-                     Balance()
-                  } else {expected(SOLDE)}
-               } else {expected(MOI)}
-            } else { expected(CONNAITRE) }
-         }
-         else if (curToken == ETRE) { eat(ETRE)
+         readToken()
+         if(curToken == VOULOIR){
+            readToken()
+            if(curToken == COMMANDER){
+               readToken()
+               Order(parseItems())
+            } else if(curToken == CONNAITRE){
+               readToken()
+               eat(MOI)
+               eat(SOLDE)
+               Balance()
+            } else{ expected(COMMANDER, CONNAITRE) }
+         } else if (curToken == ETRE) {
+            readToken()
             if (curToken == ASSOIFFE) {
                readToken()
                Thirsty()
@@ -118,17 +126,13 @@ class Parser(tokenizer: Tokenizer) {
             }
             else if (curToken == PSEUDO){
                readToken()
-               ReadOrAddUser()
+               ReadOrAddUser(curToken)
             } else { expected(ASSOIFFE, AFFAME, PSEUDO) }
-         } else if(curToken == MOI){ eat(MOI)
-            if(curToken == APPELLER){ eat(APPELLER)
-               if (curToken == PSEUDO){
-                  readToken()
-                  ReadOrAddUser()
-               } else { expected(PSEUDO) }
-            } else { expected(APPELLER) }
-         }
-         else { expected(VOULOIR, ETRE, MOI) }
+         } else if(curToken == MOI){
+            readToken()
+            eat(APPELLER)
+            ReadOrAddUser(curToken)
+         } else { expected(VOULOIR, ETRE, MOI) }
       } else { expected(BONJOUR, COMBIEN, QUEL, JE) }
    }
    // Start the process by reading the first token.
