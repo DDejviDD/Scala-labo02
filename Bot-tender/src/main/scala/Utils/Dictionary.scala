@@ -4,6 +4,11 @@ package Utils
 * Contains the dictionary of the application, which is used to validate, correct and normalize words entered by the
 * user.
 */
+
+/*
+ * edited by Muaremi Dejvid, Siu Aurélien
+ */
+
 object Dictionary {
   // This dictionary is a Map object that contains valid words as keys and their normalized equivalents as values (e.g.
   // we want to normalize the words "veux" and "aimerais" in on unique term: "vouloir").
@@ -36,7 +41,7 @@ object Dictionary {
     "quel"        -> "quel",
     "prix"        -> "prix",
     "le"          -> "le",
-    "de"          -> "le",
+    "de"          -> "de",
     "m"           -> "moi",
     "mon"         -> "moi",
     "appeler"     -> "appeler",
@@ -49,6 +54,8 @@ object Dictionary {
     "wittekop"    -> "wittekop",
     "punkipa"     -> "punkipa",
     "jackhammer"  -> "jackhammer",
+    "tenebreuses" -> "ténébreuse",
+    "tenebreuse"  -> "ténébreuse",
     "ténébreuse"  -> "ténébreuse"
   )
 }

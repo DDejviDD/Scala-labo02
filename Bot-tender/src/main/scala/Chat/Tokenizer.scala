@@ -4,6 +4,10 @@ import Tokens._
 import Utils.Dictionary.dictionary
 import Utils.SpellChecker._
 
+/*
+ * edited by Muaremi Dejvid, Siu Aurélien
+ */
+
 class Tokenizer(input: String) {
   var tokens: Array[(String, Token)] = Array()
   var currentTokenIndex = -1
@@ -15,22 +19,33 @@ class Tokenizer(input: String) {
     case "vouloir"    => VOULOIR
     case "et"         => ET
     case "ou"         => OU
+    // Products
     case "biere"      => BIERE
     case "croissant"  => CROISSANT
     case "chips"      => CHIPS
     case "assoiffe"   => ASSOIFFE
     case "affame"     => AFFAME
+
+    // Order
     case "commander"  => COMMANDER
-    case "marque"     => MARQUE
+    // Balance
     case "connaitre"  => CONNAITRE
+
     case "solde"      => SOLDE
+
+    // Price of
     case "combien"    => COMBIEN
     case "couter"     => COUTER
     case "quel"       => QUEL
     case "le"         => DETERMINANT
+    case "de"         => DETERMINANT
     case "prix"       => PRIX
+
+    // Authentication
     case "moi"        => MOI
     case "appeler"    => APPELLER
+
+    // Marque
     case "maison"     => MARQUE
     case "cailler"    => MARQUE
     case "farmer"     => MARQUE
