@@ -41,7 +41,7 @@ object Dictionary {
     "mon"         -> "moi",
     "appeler"     -> "appeler",
     "appelle"     -> "appeler",
-
+    "chips"       -> "chips",
     "maison"      -> "maison",
     "cailler"     -> "cailler",
     "farmer"      -> "farmer",

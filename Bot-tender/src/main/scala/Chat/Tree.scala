@@ -31,7 +31,8 @@ object Tree {
         */
       def reply: String = this match {
          // Example cases
-
+         case Thirsty() => "Eh bien, la chance est de votre côté, car nous offrons les meilleures bières de la région !"
+         case Hungry() => "Pas de soucis, nous pouvons notamment vous offrir des croissants faits maisons !"
          case ReadOrAddUser(name) => {
             UsersInfo.setActiveUser(name)
             "Bonjour, " + UsersInfo.getActiveUser
@@ -48,16 +49,19 @@ object Tree {
                   val orderPrice = cart.computePrice
                   val currentBalance = UsersInfo.getUserBalance(UsersInfo.getActiveUser)
                   val newBalance =  UsersInfo.purchase(UsersInfo.getActiveUser, orderPrice)
+                  if(orderPrice == 0 || currentBalance != newBalance){
+                     "Voici donc " + cart.toString + " ! Cela coûte CHF " + orderPrice.toString +
+                       " et votre nouveau solde est de CHF " + newBalance.toString
+                  } else { "Solde insuffisant" }
+                  /*
                   if(currentBalance == newBalance)
                      "Solde insuffisant"
                   else
                      "Voici donc " + cart.toString + " ! Cela coûte CHF " + orderPrice.toString +
                         " et votre nouveau solde est de CHF " + newBalance.toString
+                  */
                }
             }
-
-         case Thirsty() => "Eh bien, la chance est de votre côté, car nous offrons les meilleures bières de la région !"
-         case Hungry() => "Pas de soucis, nous pouvons notamment vous offrir des croissants faits maisons !"
       }
    }
    /**
