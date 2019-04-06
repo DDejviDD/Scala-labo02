@@ -19,9 +19,10 @@ object Tree {
       def computePrice: Double = this match {
             // Example cases
 
-            case Product() => 0.0
-            case Or() => Math.min(leftNode.computePrice, rightNode.computePrice)
-            case And() => leftNode.computePrice + rightNode.computePrice
+         case ShopCart(quantity, product) => quantity * product.price
+         case Or(leftNode, rightNode) => Math.min(leftNode.computePrice, rightNode.computePrice)
+         case And(leftNode, rightNode) => leftNode.computePrice + rightNode.computePrice
+         case _ => 0.0
       }
 
 
@@ -32,14 +33,29 @@ object Tree {
       def reply: String = this match {
          // Example cases
 
-
-         case Or() => "or"
-         case And() => "et"
-         case Login(name) => {
+         case ReadOrAddUser(name) => {
             UsersInfo.setActiveUser(name)
             "Bonjour, " + name
          }
-         case Price(basket) => "Cela coûte CHF " + basket.computePrice
+         case ObtainPrice(cart) => "Cela coûte CHF " + cart.computePrice.toString
+         case loginRequired =>
+            if(UsersInfo.getActiveUser == null)
+               "Veuillez d'abord vous identifier"
+            else loginRequired match {
+               case Balance() => "Le montant actuel de votre solde est de CHF " +
+                  UsersInfo.getUserBalance(UsersInfo.getActiveUser)
+               case Order(cart) => {
+
+                  val orderPrice = cart.computePrice
+                  val currentBalance = UsersInfo.getUserBalance(UsersInfo.getActiveUser)
+                  val newBalance =  UsersInfo.purchase(UsersInfo.getActiveUser, orderPrice)
+                  if(currentBalance == newBalance)
+                     "Solde insuffisant"
+                  else
+                     "Voici donc " + cart.toString + " ! Cela coûte CHF " + orderPrice.toString +
+                        " et votre nouveau solde est de CHF " + newBalance.toString
+               }
+            }
 
          case Thirsty() => "Eh bien, la chance est de votre côté, car nous offrons les meilleures bières de la région !"
          case Hungry() => "Pas de soucis, nous pouvons notamment vous offrir des croissants faits maisons !"
@@ -51,19 +67,17 @@ object Tree {
    // Example cases
    case class Thirsty() extends ExprTree
    case class Hungry() extends ExprTree
-   case class Login(username: String) extends ExprTree
+   case class ReadOrAddUser(username: String) extends ExprTree
    case class Order(cart: ExprTree) extends ExprTree
-   case class Price(cart: ExprTree) extends ExprTree
+   case class ObtainPrice(cart: ExprTree) extends ExprTree
+   case class ShopCart(quantity: Int, product: Products.Product) extends ExprTree {
+      override def toString: String = {
+         quantity.toString + " " + product.toString
+      }
+   }
    case class Balance() extends ExprTree
 
-   case class Item(product: Product, brand: Brand = null) extends ExprTree {
-
-   }
-   case class Items(product: Product, number: Int) extends ExprTree {
-      override def toString: String = number.toString + " " + product.toString
-   }
-
-   case class Or(first: ExprTree, second: ExprTree) extends ExprTree
-   case class And(first: ExprTree, second: ExprTree) extends ExprTree
+   case class Or(leftNode: ExprTree, rightNode: ExprTree) extends ExprTree
+   case class And(leftNode: ExprTree, rightNode: ExprTree) extends ExprTree
 
 }

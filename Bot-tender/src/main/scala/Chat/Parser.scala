@@ -34,11 +34,11 @@ class Parser(tokenizer: Tokenizer) {
    }
 
    def parsePrice() : ExprTree = {
-      var isComputable:Boolean = false
+      //var isComputable:Boolean = false
       if (curToken == COMBIEN){
          readToken()
          eat(COUTER)
-         isComputable = true
+         //isComputable = true
       }
       else if(curToken == QUEL) {
          readToken()
@@ -46,11 +46,11 @@ class Parser(tokenizer: Tokenizer) {
          eat(DETERMINANT)
          eat(PRIX)
          eat(DETERMINANT)
-         isComputable = true
+         //isComputable = true
       }
-      if(isComputable){
+//      if(isComputable){
          ObtainPrice(parseItems())
-      }
+//      }
    }
    def parseOrder() : ExprTree = {
       var quantity : Int = 0
@@ -64,7 +64,7 @@ class Parser(tokenizer: Tokenizer) {
                product = new Beer()
                readToken()
                if(curToken == MARQUE){
-                  product.p_type = curValue
+                  product.name = curValue
                   readToken()
                }
             }
@@ -72,7 +72,7 @@ class Parser(tokenizer: Tokenizer) {
                product = new Croissant()
                readToken()
                if(curToken == MARQUE){
-                  product.p_type = curValue
+                  product.name = curValue
                   readToken()
                }
             }
@@ -126,12 +126,12 @@ class Parser(tokenizer: Tokenizer) {
             }
             else if (curToken == PSEUDO){
                readToken()
-               ReadOrAddUser(curToken)
+               ReadOrAddUser(curValue)
             } else { expected(ASSOIFFE, AFFAME, PSEUDO) }
          } else if(curToken == MOI){
             readToken()
             eat(APPELLER)
-            ReadOrAddUser(curToken)
+            ReadOrAddUser(curValue)
          } else { expected(VOULOIR, ETRE, MOI) }
       } else { expected(BONJOUR, COMBIEN, QUEL, JE) }
    }
