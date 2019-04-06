@@ -123,8 +123,9 @@ class Parser(tokenizer: Tokenizer) {
                Hungry()
             }
             else if (curToken == PSEUDO){
-               readToken()
-               ReadOrAddUser(curValue)
+              var tmp = curValue
+              readToken()
+              ReadOrAddUser(tmp)
             } else { expected(ASSOIFFE, AFFAME, PSEUDO) }
          } else if(curToken == MOI){
             readToken()
