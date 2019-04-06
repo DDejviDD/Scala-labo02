@@ -18,7 +18,7 @@ object Tree {
         */
       def computePrice: Double = this match {
 
-         case ShopCart(quantity, product) => quantity * product.price
+         case ShopCart(quantity, product) => quantity * product.price()
          case Or(leftNode, rightNode) => Math.min(leftNode.computePrice, rightNode.computePrice)
          case And(leftNode, rightNode) => leftNode.computePrice + rightNode.computePrice
          case _ => 0.0
