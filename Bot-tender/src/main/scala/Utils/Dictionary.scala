@@ -40,6 +40,15 @@ object Dictionary {
     "m"           -> "moi",
     "mon"         -> "moi",
     "appeler"     -> "appeler",
-    "appelle"     -> "appeler"
+    "appelle"     -> "appeler",
+
+    "maison"      -> "maison",
+    "cailler"     -> "cailler",
+    "farmer"      -> "farmer",
+    "boxer"       -> "boxer",
+    "wittekop"    -> "wittekop",
+    "punkipa"     -> "punkipa",
+    "jackhammer"  -> "jackhammer",
+    "ténébreuse"  -> "ténébreuse"
   )
 }
