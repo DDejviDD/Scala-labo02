@@ -17,7 +17,6 @@ object Tree {
         * @return the result of the computation
         */
       def computePrice: Double = this match {
-            // Example cases
 
          case ShopCart(quantity, product) => quantity * product.price
          case Or(leftNode, rightNode) => Math.min(leftNode.computePrice, rightNode.computePrice)
@@ -35,7 +34,7 @@ object Tree {
 
          case ReadOrAddUser(name) => {
             UsersInfo.setActiveUser(name)
-            "Bonjour, " + name
+            "Bonjour, " + UsersInfo.getActiveUser
          }
          case ObtainPrice(cart) => "Cela coûte CHF " + cart.computePrice.toString
          case loginRequired =>
