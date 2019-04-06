@@ -34,11 +34,9 @@ class Parser(tokenizer: Tokenizer) {
    }
 
    def parsePrice() : ExprTree = {
-      //var isComputable:Boolean = false
       if (curToken == COMBIEN){
          readToken()
          eat(COUTER)
-         //isComputable = true
       }
       else if(curToken == QUEL) {
          readToken()
@@ -46,11 +44,8 @@ class Parser(tokenizer: Tokenizer) {
          eat(DETERMINANT)
          eat(PRIX)
          eat(DETERMINANT)
-         //isComputable = true
       }
-//      if(isComputable){
-         ObtainPrice(parseItems())
-//      }
+     ObtainPrice(parseItems())
    }
    def parseOrder() : ExprTree = {
       var quantity : Int = 0
@@ -93,7 +88,10 @@ class Parser(tokenizer: Tokenizer) {
             readToken()
             Or(leftNode, parseItems())
          }
-         case _ => leftNode
+         case _ => {
+            readToken()
+            leftNode
+         }
       }
    }
 
@@ -133,7 +131,7 @@ class Parser(tokenizer: Tokenizer) {
             eat(APPELLER)
             ReadOrAddUser(curValue)
          } else { expected(VOULOIR, ETRE, MOI) }
-      } else { expected(BONJOUR, COMBIEN, QUEL, JE) }
+      } else { expected(COMBIEN, QUEL, JE) }
    }
    // Start the process by reading the first token.
    readToken()
