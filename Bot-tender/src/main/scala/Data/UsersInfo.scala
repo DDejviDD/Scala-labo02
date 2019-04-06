@@ -24,7 +24,7 @@ object UsersInfo {
      * @return the new balance
      */
    def purchase(user: String, amount: Double): Double = {
-      if (userBalance(user) - amount > 0.0) {
+      if (userBalance(user) - amount >= 0.0) {
          accounts.update(user, userBalance(user) - amount)
       }
       userBalance(user)
