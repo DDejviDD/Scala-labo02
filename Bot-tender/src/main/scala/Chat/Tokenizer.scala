@@ -30,7 +30,6 @@ class Tokenizer(input: String) {
     case "commander"  => COMMANDER
     // Balance
     case "connaitre"  => CONNAITRE
-
     case "solde"      => SOLDE
 
     // Price of

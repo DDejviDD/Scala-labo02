@@ -1,5 +1,9 @@
 package Data
 
+/*
+ * created by Muaremi Dejvid, Siu Aurélien
+ */
+
 class Beer extends Products.Product {
   override var name = "bière"
   override var brand = "boxer"

@@ -1,11 +1,14 @@
 package Chat
 
+import Data.Products._
 import Data.{Beer, Chips, Croissant}
 import Tokens._
 import Tree._
-import Data.Products._
 
-// TODO - step 4
+/*
+ * edited by Muaremi Dejvid, Siu Aurélien
+ */
+
 class Parser(tokenizer: Tokenizer) {
    import tokenizer._
 

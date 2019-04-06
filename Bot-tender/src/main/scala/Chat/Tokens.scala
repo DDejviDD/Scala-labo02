@@ -1,5 +1,9 @@
 package Chat
 
+/*
+ * edited by Muaremi Dejvid, Siu Aurélien
+ */
+
 object Tokens {
   type Token = Int
 

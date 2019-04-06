@@ -1,5 +1,9 @@
 package Data
 
+/*
+ * created by Muaremi Dejvid, Siu Aurélien
+ */
+
 class Croissant extends Products.Product{
   override var name  : String = "croissant"
   override var brand : String = "maison"

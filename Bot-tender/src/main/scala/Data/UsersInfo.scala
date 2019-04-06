@@ -2,6 +2,10 @@ package Data
 
 import scala.collection.mutable
 
+/*
+ * edited by Muaremi Dejvid, Siu Aurélien
+ */
+
 object UsersInfo {
 
    // Will contain the name of the currently active user; default value is null.

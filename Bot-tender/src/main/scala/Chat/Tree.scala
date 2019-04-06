@@ -1,8 +1,12 @@
 package Chat
 
-import Data.{Products, UsersInfo}
+import Data.UsersInfo
+import Data.Products._
 
-// TODO - step 3
+/*
+ * edited by Muaremi Dejvid, Siu Aurélien
+ */
+
 object Tree {
 
    /**
@@ -33,33 +37,30 @@ object Tree {
          // Example cases
          case Thirsty() => "Eh bien, la chance est de votre côté, car nous offrons les meilleures bières de la région !"
          case Hungry() => "Pas de soucis, nous pouvons notamment vous offrir des croissants faits maisons !"
-         case ReadOrAddUser(name) => {
-            UsersInfo.setActiveUser(name)
-            "Bonjour, " + UsersInfo.getActiveUser
-         }
-         case ObtainPrice(cart) => "Cela coûte CHF " + cart.computePrice.toString
+
+         // Added replies
+         case ReadOrAddUser(name) => UsersInfo.setActiveUser(name)
+            "Bonjour, " + UsersInfo.getActiveUser + " !"
+
+         case ObtainPrice(cart) => "Cela coûte CHF " + cart.computePrice.toString + "."
          case loginRequired =>
             if(UsersInfo.getActiveUser == null)
-               "Veuillez d'abord vous identifier"
+               "Veuillez d'abord vous identifier."
             else loginRequired match {
                case Balance() => "Le montant actuel de votre solde est de CHF " +
                   UsersInfo.getUserBalance(UsersInfo.getActiveUser)
-               case Order(cart) => {
 
+               case Order(cart) => {
                   val orderPrice = cart.computePrice
                   val currentBalance = UsersInfo.getUserBalance(UsersInfo.getActiveUser)
                   val newBalance =  UsersInfo.purchase(UsersInfo.getActiveUser, orderPrice)
-                  if(orderPrice == 0 || currentBalance != newBalance){
+
+                  if(orderPrice == 0.0 || currentBalance != newBalance)
                      "Voici donc " + cart.toString + " ! Cela coûte CHF " + orderPrice.toString +
-                       " et votre nouveau solde est de CHF " + newBalance.toString
-                  } else { "Solde insuffisant" }
-                  /*
-                  if(currentBalance == newBalance)
-                     "Solde insuffisant"
+                       " et votre nouveau solde est de CHF " + newBalance.toString + "."
                   else
-                     "Voici donc " + cart.toString + " ! Cela coûte CHF " + orderPrice.toString +
-                        " et votre nouveau solde est de CHF " + newBalance.toString
-                  */
+                     "Solde insuffisant. " + "Votre solde est actuellement de " + currentBalance.toString + "."
+
                }
             }
       }
@@ -70,18 +71,23 @@ object Tree {
    // Example cases
    case class Thirsty() extends ExprTree
    case class Hungry() extends ExprTree
+
+   // Added case class
    case class ReadOrAddUser(username: String) extends ExprTree
    case class Order(cart: ExprTree) extends ExprTree
    case class ObtainPrice(cart: ExprTree) extends ExprTree
-   case class ShopCart(quantity: Int, product: Products.Product) extends ExprTree {
+   case class Balance() extends ExprTree
+
+   case class ShopCart(quantity: Int, product: Product) extends ExprTree {
       override def toString: String = {
          quantity.toString + " " + product.toString
       }
    }
-   case class Balance() extends ExprTree
 
    case class Or(leftNode: ExprTree, rightNode: ExprTree) extends ExprTree {
       override def toString: String = {
+         // The Or node return the node with the lowest computed price
+         // If two nodes return the same price, we take the left node
          if(leftNode.computePrice <= rightNode.computePrice)
             leftNode.toString
          else
