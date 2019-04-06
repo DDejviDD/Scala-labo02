@@ -15,6 +15,7 @@ object Tokens {
   // Products
   val BIERE: Token          =  6
   val CROISSANT: Token      =  7
+  val CHIPS: Token          =  8
   // Utils
   val PSEUDO: Token         =  9
   val NUM: Token            = 10
@@ -23,17 +24,23 @@ object Tokens {
   // Test
   val ASSOIFFE : Token      = 13
   val AFFAME : Token        = 14
-  // New
-  val PRODUIT: Token        = 15
+
+  // Order
+  val COMMANDER: Token      = 15
   val MARQUE: Token         = 16
-  val COUTER: Token         = 17
-  val COMMANDER: Token      = 18
-  val SOLDE: Token          = 19
-  val PRIX: Token           = 20
-  val COMBIEN: Token        = 21
-  val QUEL:Token            = 22
-  val DETERMINANT:Token     = 23
-  val CONNAITRE:Token       = 24
-  val MOI:Token             = 25
-  val APPELLER:Token        = 26
+
+  // Balance
+  val CONNAITRE:Token       = 17
+  val SOLDE: Token          = 18
+
+  // Price of
+  val COMBIEN: Token        = 19
+  val COUTER: Token         = 20
+  val QUEL:Token            = 21
+  val DETERMINANT:Token     = 22
+  val PRIX: Token           = 23
+
+  // Authentication
+  val MOI:Token             = 24
+  val APPELLER:Token        = 25
 }
