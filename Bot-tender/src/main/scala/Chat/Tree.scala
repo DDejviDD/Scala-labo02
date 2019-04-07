@@ -21,9 +21,12 @@ object Tree {
         * @return the result of the computation
         */
       def computePrice: Double = this match {
-
+         // compute price for the quantity of a specific product
          case ShopCart(quantity, product) => quantity * product.price()
+
+         // if it's a Or node, the computedPrice of the cheapest children node is returned
          case Or(leftNode, rightNode) => Math.min(leftNode.computePrice, rightNode.computePrice)
+         // if it's a And node, the computedPrice of both children is returned
          case And(leftNode, rightNode) => leftNode.computePrice + rightNode.computePrice
          case _ => 0.0
       }
@@ -40,7 +43,7 @@ object Tree {
 
          // Added replies
          // Authenticate an user
-         case ReadOrAddUser(name) => UsersInfo.setActiveUser(name)
+         case Authentification(name) => UsersInfo.setActiveUser(name)
             "Bonjour, " + UsersInfo.getActiveUser + " !"
          // Obtain the price of a cart
          case ObtainPrice(cart) => "Cela coûte CHF " + cart.computePrice.toString + "."
@@ -66,6 +69,7 @@ object Tree {
                      "Solde insuffisant. " + "Votre solde est actuellement de " + currentBalance.toString + "."
 
                }
+               case _ => ""
             }
       }
    }
@@ -77,7 +81,7 @@ object Tree {
    case class Hungry() extends ExprTree
 
    // Added case class
-   case class ReadOrAddUser(username: String) extends ExprTree
+   case class Authentification(username: String) extends ExprTree
    case class Order(cart: ExprTree) extends ExprTree
    case class ObtainPrice(cart: ExprTree) extends ExprTree
    case class Balance() extends ExprTree
