@@ -19,6 +19,7 @@ class Tokenizer(input: String) {
     case "vouloir"    => VOULOIR
     case "et"         => ET
     case "ou"         => OU
+
     // Products
     case "biere"      => BIERE
     case "croissant"  => CROISSANT
@@ -28,6 +29,7 @@ class Tokenizer(input: String) {
 
     // Order
     case "commander"  => COMMANDER
+
     // Balance
     case "connaitre"  => CONNAITRE
     case "solde"      => SOLDE
@@ -44,7 +46,7 @@ class Tokenizer(input: String) {
     case "moi"        => MOI
     case "appeler"    => APPELLER
 
-    // Marque
+    // Brands
     case "maison"     => MARQUE
     case "cailler"    => MARQUE
     case "farmer"     => MARQUE
@@ -53,11 +55,16 @@ class Tokenizer(input: String) {
     case "punkipa"    => MARQUE
     case "jackhammer" => MARQUE
     case "ténébreuse" => MARQUE
+
+    // other
     case p if p.startsWith("_") && p.length > 1 => PSEUDO // If the word starts with '_' and has more than one character it is a pseudonym.
     case n if n.forall(Character.isDigit) => NUM // If every character is a number, the word thus is a number.
     case _ => UNKNOWN
   }
 
+  /**
+    * Create a token from a word
+    */
   def tokenize(): Unit = {
     val words = input
       .trim()
@@ -71,6 +78,10 @@ class Tokenizer(input: String) {
     tokens = fromDictionnary.map(t => (t, getTokenFromString(t)))
   }
 
+  /**
+    * Obtain the next token from the message as a tuple (String, Token)
+    * @return a tuple (String, Token) containing the next token
+    */
   def nextToken(): (String, Token) = {
     currentTokenIndex += 1
 

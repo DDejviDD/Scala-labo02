@@ -8,10 +8,10 @@ class Beer extends Products.Product {
   override var name = "bière"
   override var brand = "boxer"
 
-  def this(price:Double, name:String){
-    this()
-    this.name = name
-  }
+  /**
+    * Obtain the price for the current beer brand
+    * @return a price of a beer brand
+    */
   override def price():Double ={
     brand match {
       case "boxer"      => 1.0

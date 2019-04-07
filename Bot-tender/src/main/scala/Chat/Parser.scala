@@ -36,6 +36,10 @@ class Parser(tokenizer: Tokenizer) {
       sys.exit(1)
    }
 
+   /**
+     * Follow the three where an user ask the price for an order
+     * @return an ExprTree which will obtain the price for different product
+     */
    def parsePrice() : ExprTree = {
       if (curToken == COMBIEN){
          readToken()
@@ -50,13 +54,22 @@ class Parser(tokenizer: Tokenizer) {
       }
      ObtainPrice(parseItems())
    }
+
+   /**
+     * Follow the three for an order
+     * The usual form is defined as :  Number Product [brand]
+     * @return an ExprTree for an order
+     */
    def parseOrder() : ExprTree = {
+      // used to return the order in the ExpTree
       var quantity : Int = 0
       var product : Product = null
 
+      // We need a quantity of product
       if(curToken == NUM){
          quantity = curValue.toInt
-         eat(NUM)
+         eat(NUM) // Return a fatal error if the quantity is not set
+         // Then we will look for the kind of product and it's brand
          curToken match {
             case BIERE => {
                product = new Beer()
@@ -75,13 +88,25 @@ class Parser(tokenizer: Tokenizer) {
                }
             }
             case CHIPS => product = new Chips()
+            // In case of error while parsing the product
+            // we return a custom 3 expected response
             case _ => expected(CROISSANT, BIERE, CHIPS)
          }
       }
+      // Create and return the ExprTree
       ShopCart(quantity, product)
    }
+
+   /**
+     * Parse the items of a complete order request.
+     * The usual form is : order1 {("and" | "or") order2}
+     * @return an ExprTree for a complete order request
+     */
    def parseItems() : ExprTree = {
+      // We use the first order as a left node
       val leftNode:ExprTree = parseOrder()
+      // There's a right node only when we have
+      // an AND or OR token following an order
       curToken match {
          case ET => {
             readToken()
@@ -92,6 +117,8 @@ class Parser(tokenizer: Tokenizer) {
             Or(leftNode, parseItems())
          }
          case _ => {
+            // If we have anything else,
+            // we return the first order as the only one
             readToken()
             leftNode
          }
@@ -100,36 +127,45 @@ class Parser(tokenizer: Tokenizer) {
 
    /** the root method of the parser: parses an entry phrase */
    def parsePhrases() : ExprTree = {
+      // Take care of the welcome message
       if (curToken == BONJOUR) { readToken() }
+      // Take care when an user need the price of an order
       if(curToken == COMBIEN || curToken == QUEL){ parsePrice() }
       else if (curToken == JE ) {
          readToken()
          if(curToken == VOULOIR){
             readToken()
+            // Take care of an order
             if(curToken == COMMANDER){
                readToken()
                Order(parseItems())
+               // Take care of the balance of the current user
             } else if(curToken == CONNAITRE){
                readToken()
                eat(MOI)
                eat(SOLDE)
                Balance()
             } else{ expected(COMMANDER, CONNAITRE) }
+            // Take care of the user authentication and state
          } else if (curToken == ETRE) {
             readToken()
+            // When the user is thirsty
             if (curToken == ASSOIFFE) {
                readToken()
                Thirsty()
             }
+            // When the user is hungry
             else if (curToken == AFFAME) {
                readToken()
                Hungry()
             }
+            // When the user tell us his name
             else if (curToken == PSEUDO){
               var tmp = curValue
               readToken()
               ReadOrAddUser(tmp)
             } else { expected(ASSOIFFE, AFFAME, PSEUDO) }
+            // When the user tell us his name in another way
          } else if(curToken == MOI){
             readToken()
             eat(APPELLER)

@@ -2,32 +2,18 @@ package Utils
 
 import Utils.Dictionary.dictionary
 
+/*
+ * edited by Muaremi Dejvid, Siu Aurélien
+ */
+
 object SpellChecker {
-  /*
-  def stringDistanceRec(s1: String, s2: String): Int ={
 
-    def intEditDistance(s1:String, s2:String, n:Int, m:Int ):Int
-    {
-      /* Here n = len(s1) m = len(s2) */
-
-       if(n == 0 && m == 0)  0
-       else if(n == 0) m
-       else if( m == 0 ) n
-
-       /* Recursive Part */
-       else {
-         var a = dit_Distance (s1, s2, n - 1, m - 1) + (s1[n - 1] != s2[m - 1] );
-         var b = Edit_Distance (s1, s2, n - 1, m) + 1; //Deletion
-         var c = Edit_Distance (s1, s2, n, m - 1) + 1; //Insertion
-
-        min (a, b, c)
-      }
-    }
-
-    intEditDistance(s1:String, s2:String, s1.size, s2.size ):Int
-  }
-  */
-
+  /**
+    * Compute a levenstein distance between two strings
+    * @param s1 the first word to be compare
+    * @param s2 the second word to be compared
+    * @return a value corresponding to the levenstein distance between these words
+    */
   def stringDistance(s1: String, s2: String): Int = {
     val memo = scala.collection.mutable.Map[(String, String), Int]()
     def min(a: Int, b: Int, c: Int) = Math.min(Math.min(a, b), c)
@@ -53,6 +39,11 @@ object SpellChecker {
     sd(s1, s2)
   }
 
+  /**
+    * When the word is misspelled, we try to find the closest one using the levenstein distance
+    * @param misspelledWord the word that couldn't be found
+    * @return the closest word to the mispelled one
+    */
   def getClosestWordInDictionary(misspelledWord: String): String = {
     // If the word is a number we don't want to replace it so we just return it.
     if (misspelledWord.forall(Character.isDigit) || misspelledWord.startsWith("_")) {
